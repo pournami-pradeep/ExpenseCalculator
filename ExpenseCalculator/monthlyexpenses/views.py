@@ -33,11 +33,10 @@ class UserRegistrationAPIView(generics.GenericAPIView):
     msg_obj = Custommessage()
 
     def post(self,request):
-        
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            source_obj = serializer.save()
+            user = serializer.save()
             msg = self.msg_obj.created.format(obj="User")
-            return success(msg,{"id":source_obj.id})
+            return success(msg,{"id":user.id})
         return serializer_error(serializer)
             

@@ -1,29 +1,39 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from monthlyexpenses.models import Source
+from monthlyexpenses.models import Source, UserProfile
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(style={"input_type":"password"},write_only=True)
+    email = serializers.EmailField(required=True)
+    name = serializers.CharField(required=True)
 
-    def validate(self,validated_data):
-        if validated_data.get("password2") != validated_data.get("password"):
-            raise serializers.ValidationError({"password2":"Passwords didn't match."})
-        return validated_data
-    
-    def create(self,validated_data):
-        user = User.objects.create(username=validated_data.get("username"),
-                            email=validated_data.get("email"),
-                            password=validated_data.get("password"))
-        
+    def validate_email(self, email):
+        if UserProfile.objects.filter(email=email).exists():
+            raise serializers.ValidationError("Email already exist.")
+        return email
+
+    def validate_name(self, val):
+        if UserProfile.objects.filter(name=val).exists():
+            raise serializers.ValidationError("Username already exist.")
+        return val
+
+    def create(self, validated_data):
+        auth_user = User.objects.create(
+            username=validated_data.get("name"), email=validated_data.get("email")
+        )
+        user = UserProfile.objects.create(
+            name=validated_data.get("username"),
+            email=validated_data.get("email"),
+            profile_photo=validated_data.get("profile_photo"),
+            user=auth_user,
+        )
+
         return user
 
     class Meta:
-        model = User
-        fields = ['username','email','password','password2']
-
-
+        model = UserProfile
+        fields = ["name", "email", "profile_photo"]
 
 
 class SourceSerializer(serializers.ModelSerializer):
@@ -36,4 +46,7 @@ class SourceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Source
-        fields = ("id","label",)
+        fields = (
+            "id",
+            "label",
+        )
