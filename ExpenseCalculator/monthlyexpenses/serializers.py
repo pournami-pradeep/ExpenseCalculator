@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from monthlyexpenses.models import Source, UserProfile
+from monthlyexpenses.models import Expenses, Source, UserProfile
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -50,3 +50,29 @@ class SourceSerializer(serializers.ModelSerializer):
             "id",
             "label",
         )
+
+
+class ExpenseSerializer(serializers.ModelSerializer):
+    source = serializers.IntegerField(required=True)
+    expense = serializers.IntegerField(required=True)
+
+    def validate_source(self,value):
+        try:
+            source = Source.objects.get(id=value)
+        except:
+            raise serializers.ValidationError("Invalid Source")
+        return source
+
+    def validate_expense(self,value):
+        if value < 0:
+            raise serializers.ValidationError("Invalid")
+        return value
+
+    def create(self, validated_data):
+        Expenses.objects.create(
+            source=validated_data.get("source"), expense=validated_data.get("expense")
+        )
+        return True
+    class Meta:
+        model = Expenses
+        fields = ("source", "expense")

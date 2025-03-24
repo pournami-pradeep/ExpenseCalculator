@@ -4,3 +4,4 @@ class Custommessage(object):
         self.created = "{obj} created successfully."
         self.listed = "{obj} listed successfully."
         self.not_found = "{obj} not found."
+        self.added = "Expenses added."

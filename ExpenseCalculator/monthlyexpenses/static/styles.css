@@ -1,7 +1,7 @@
 
 body {
 
-    background-image: url("images/background.png");
+    background-image: url("images/new.png");
 }
 
 h1 {
@@ -59,6 +59,36 @@ h1 {
     display: block;
     margin-top: 15px;
 }
+
+.b3{
+    background-color:#AA336A;
+    font-family: "Shadows Into Light", cursive;
+    font-weight: 400;
+    font-style: normal;
+    width: 250px;
+    height: 80px;
+    font-size: 50px;
+    margin: 0 auto;
+    display: block;
+   
+}
+
+
+.Intro {
+    color: blueviolet;
+    font-family: "Shadows Into Light", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 50px;
+    text-align: center;
+    justify-content: center;
+    margin-top: 300px;
+    margin-left: 400px;
+    margin-right: 400px;
+    
+}
+
+
   
 
   
