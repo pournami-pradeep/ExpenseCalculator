@@ -1,9 +1,10 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.template import loader
 from rest_framework import generics
 
 from monthlyexpenses.Custommessages import Custommessage
+
 from monthlyexpenses.models import Source
 from monthlyexpenses.serializers import (ExpenseSerializer, SourceSerializer,
                                          UserRegistrationSerializer)
@@ -11,18 +12,26 @@ from monthlyexpenses.utilities import *
 
 # Create your views here.
 
-class SourceAPIView(generics.GenericAPIView):
+class CreateSource(generics.CreateAPIView):
     serializer_class = SourceSerializer
-    msg_obj = Custommessage()
 
     def post(self,request):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            source_obj = serializer.save()
-            msg = self.msg_obj.created.format(obj="Source")
-            return success(msg,{"id":source_obj.id})
-        return serializer_error(serializer)
+            serializer.save()   
+            return redirect('source')
+        
+        return render(request, "source_create.html", {
+            "errors":"Source with this label already exist."
+        })
+        
+    def get(self,request):
+        return render(request, "source_create.html", {})
+
     
+
+class SourceAPIView(generics.GenericAPIView):
+
     def get(self,request):
         sources = Source.objects.all().values()
         template = loader.get_template('source_list.html')

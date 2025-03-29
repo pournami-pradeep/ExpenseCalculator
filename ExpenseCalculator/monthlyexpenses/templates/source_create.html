@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="create">
+
+<head>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barrio&family=Delius&family=Shadows+Into+Light&display=swap"
+        rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Barrio&family=Shadows+Into+Light&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <form method="POST" action="/create-source/">
+
+        {% csrf_token %}
+        <div>
+            <div  class="container">
+                <label for="source">Source Label:</label>
+            </div>
+            <div>
+                <div>
+                <input id="source" type="text" name="label" value="" required />
+                </div>
+                <div class="container">
+                    <div class="buttondiv">
+                    <button class="b2" type="submit">Save</button>
+                    </div>
+                    <div>
+                    <button class="b2" type="submit" onclick="location.href = '/source/'">Back</button>
+                    </div>
+                </div>
+            </div>
+            {% if errors %}<p><strong>{{ errors }}</strong></p>{% endif %}
+        </div>
+
+
+    </form>
+
+
+
+</body>
+
+
+
+
+</html>
