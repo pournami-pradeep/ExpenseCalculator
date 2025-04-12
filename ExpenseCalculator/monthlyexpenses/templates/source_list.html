@@ -19,12 +19,20 @@
     <div class="flex-container">
         {% for x in sources %}
         <div class="box">
+            <div class="buttondiv">
+                <button class="b4">Delete</button>
+                <button class="b4">Edit</button>
+            </div>
             {{x.label}}
-            <button class="b2">Add Expense</button>
+            <a href="{% url 'expenses/' x.id %}">
+            <button class="b2" >Add Expense</button>
+            </a>
+            
         </div>
         {% endfor %}
     </div>
     
+    <br>
     <button class="b1" onclick="location.href = '/create-source/'" >Add Source</button>
 
 </body>

@@ -4,9 +4,9 @@ from django.urls import path
 from monthlyexpenses import views
 
 urlpatterns = [
-    path('source/',views.SourceAPIView.as_view(),name='source'),
-    path('register/',views.UserRegistrationAPIView.as_view(),name='register'),
-    path('expenses/',views.ExpenseAPIView.as_view(),name='expenses'),
+    # path('source/',views.SourceAPIView.as_view(),name='source'),
+    path('register/',views.register,name='register'),
+    # path('expenses/<int:source_id>/',views.ExpenseAPIView.as_view(),name='expenses'),
     path('',views.HomePage.as_view(), name="home"),
-    path('create-source/',views.CreateSource.as_view(),name='source-create'),
+    # path('create-source/',views.CreateSource.as_view(),name='source-create'),
 ]

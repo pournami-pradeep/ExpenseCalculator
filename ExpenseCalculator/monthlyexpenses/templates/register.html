@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div>
+    <div>
+        <h1>Register</h1>
+    </div>
+    <div>
+
+        <form autocomplete="off" class="row g-3" action="" method="POST">
+            {% csrf_token %}
+            {% if form.errors %}
+
+            <div class="alert" role="alert">
+                {% if error %}
+
+                <p>{{ error }}</p>
+
+                {% endif %}
+
+                <button type="button" class="b2" data-bs-dismiss="alert" aria-label="Close">Close</button>
+
+            </div>
+            {% endif %}
+
+
+            {{ form.first_name }}
+
+            {{ form.last_name }}
+
+            {{ form.username }}
+
+            {{ form.email }}
+
+            {{ form.password1 }}
+            <ul class="form-text text-muted small">
+                <li>Your password can't be too similar to your other personal information.</li>
+                <li>Your password must contain at least 8 characters.</li>
+                <li>Your password can't be a commonly used password.</li>
+                <li>Your password can't be entirely numeric.</li>
+            </ul>
+            {{ form.password2 }}
+            <ul class="form-text text-muted small">
+                <li> Enter password as before.</li>
+            </ul>
+
+    </div>
+    <div class=button">
+        <button type="submit" class="b5">Submit</button>
+
+    </div>
+
+
+    </form>
+</div>
+{% endblock %}
