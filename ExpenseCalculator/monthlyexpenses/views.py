@@ -6,32 +6,25 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from monthlyexpenses.Custommessages import Custommessage
 from monthlyexpenses.models import Source
-from monthlyexpenses.serializers import (ExpenseSerializer, SourceSerializer,
-                                         UserRegistrationSerializer)
-from monthlyexpenses.utilities import *
 from rest_framework import generics
 
-from .forms import UserRegistrationForm
+from .forms import SourceForm, UserRegistrationForm
 
 # Create your views here.
 
-class CreateSource(generics.CreateAPIView):
-    serializer_class = SourceSerializer
 
-    def post(self,request):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()   
-            return redirect('source')
-        
-        return render(request, "source_create.html", {
-            "errors":"Source with this label already exist."
-        })
-        
-    def get(self,request):
-        return render(request, "source_create.html", {})
 
+def create_source(request):
     
+    if request.method == "POST":
+        form = SourceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("source")
+        error_string = ' '.join([' '.join(x for x in l) for l in list(form.errors.values())])
+        return render(request,"source_create.html",{"form":form,"error":error_string})
+    form = SourceForm()
+    return render(request,"source_create.html",{"form":form})
 
 
 def sources(request):
@@ -41,7 +34,6 @@ def sources(request):
 
 
 class ExpenseAPIView(generics.GenericAPIView):
-    serializer_class = ExpenseSerializer
     msg_obj = Custommessage()
 
    
@@ -97,17 +89,7 @@ def login_user(request):
     return render(request,'login.html')
     
 
-class UserRegistrationAPIView(generics.GenericAPIView):
-    serializer_class = UserRegistrationSerializer
-    msg_obj = Custommessage()
 
-    def post(self,request):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            msg = self.msg_obj.created.format(obj="User")
-            return success(msg,{"id":user.id})
-        return serializer_error(serializer)
     
 
 

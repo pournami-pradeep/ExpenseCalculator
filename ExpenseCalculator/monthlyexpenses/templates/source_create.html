@@ -1,50 +1,41 @@
-{% load static %}
-<!DOCTYPE html>
-<html class="create">
+{% extends 'base.html' %}
 
-<head>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barrio&family=Delius&family=Shadows+Into+Light&display=swap"
-        rel="stylesheet">
+{% block content %}
+    <div>
 
-    <link href="https://fonts.googleapis.com/css2?family=Barrio&family=Shadows+Into+Light&display=swap"
-        rel="stylesheet">
-</head>
-
-<body>
-    <form method="POST" action="/create-source/">
+        <div>
+            <h1>Add Source</h1>
+        </div>
+    <form autocomplete="off" class="row g-3" action="" method="POST">
 
         {% csrf_token %}
+        {% if form.errors %}
+
+        <div class="alert" role="alert">
+            {% if error %}
+
+            <p>{{ error }}</p>
+
+            {% endif %}
+
+            <button type="button" class="b2" data-bs-dismiss="alert" aria-label="Close">Close</button>
+
+        </div>
+        {% endif %}
+        <br>
+        <br>
+        {{ form.label }}
+        <br>
         <div>
-            <div  class="container">
-                <label for="source">Source Label:</label>
-            </div>
-            <div>
-                <div>
-                <input id="source" type="text" name="label" value="" required />
-                </div>
-                <div class="container">
-                    <div class="buttondiv">
-                    <button class="b2" type="submit">Save</button>
-                    </div>
-                    <div>
-                    <button class="b2" type="submit" onclick="location.href = '/source/'">Back</button>
-                    </div>
-                </div>
-            </div>
-            {% if errors %}<p><strong>{{ errors }}</strong></p>{% endif %}
+        <a href="{% url 'source' %}">
+        <button class="b2">Save</button>
+        </a>
         </div>
 
 
     </form>
+</div>
 
 
 
-</body>
-
-
-
-
-</html>
+{% endblock %}
