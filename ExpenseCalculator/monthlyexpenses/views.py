@@ -1,15 +1,15 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, user_logged_in
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
-from rest_framework import generics
-
 from monthlyexpenses.Custommessages import Custommessage
 from monthlyexpenses.models import Source
 from monthlyexpenses.serializers import (ExpenseSerializer, SourceSerializer,
                                          UserRegistrationSerializer)
 from monthlyexpenses.utilities import *
+from rest_framework import generics
 
 from .forms import UserRegistrationForm
 
@@ -87,6 +87,17 @@ def register(request):
     form = UserRegistrationForm()
     return render(request, 'register.html',{"form":form})
 
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get("password")
+        user = authenticate(username=username,password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')  #should change this to source listing page
+        return render(request,'login.html',{"error":"Error logging in."})
+    return render(request,'login.html')
+    
 
 class UserRegistrationAPIView(generics.GenericAPIView):
     serializer_class = UserRegistrationSerializer
