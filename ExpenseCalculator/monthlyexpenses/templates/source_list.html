@@ -1,40 +1,27 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html>
+{% block content %}
+<div>
 
-<head>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barrio&family=Delius&family=Shadows+Into+Light&display=swap"
-        rel="stylesheet">
+    {% csrf_token %}
+    <div>
+        <h1>Sources</h1>
+    </div>
 
-    <link href="https://fonts.googleapis.com/css2?family=Barrio&family=Shadows+Into+Light&display=swap"
-        rel="stylesheet">
-</head>
-
-<body>
-    <h1>Sources</h1>
+    
     <div class="flex-container">
         {% for x in sources %}
         <div class="box">
-            <div class="buttondiv">
-                <button class="b4">Delete</button>
-                <button class="b4">Edit</button>
-            </div>
             {{x.label}}
-            <a href="{% url 'expenses/' x.id %}">
-            <button class="b2" >Add Expense</button>
-            </a>
-            
         </div>
         {% endfor %}
+
     </div>
-    
-    <br>
-    <button class="b1" onclick="location.href = '/create-source/'" >Add Source</button>
 
-</body>
+    <div>
+    <button class="b1" >Add Source &#128176;</button>
+    </div>
 
-</html>
+</div>
+
+{% endblock %}

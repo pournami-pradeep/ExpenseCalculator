@@ -33,14 +33,12 @@ class CreateSource(generics.CreateAPIView):
 
     
 
-class SourceAPIView(generics.GenericAPIView):
 
-    def get(self,request):
-        sources = Source.objects.all().values()
-        template = loader.get_template('source_list.html')
-        context = {"sources":sources}
-        return HttpResponse(template.render(context, request))
-    
+def sources(request):
+    sources = Source.objects.all().values()
+    context = {"sources":sources}
+    return render(request,"source_list.html",context)
+
 
 class ExpenseAPIView(generics.GenericAPIView):
     serializer_class = ExpenseSerializer
@@ -94,7 +92,7 @@ def login_user(request):
         user = authenticate(username=username,password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')  #should change this to source listing page
+            return redirect('source')  #should change this to source listing page
         return render(request,'login.html',{"error":"Error logging in."})
     return render(request,'login.html')
     
