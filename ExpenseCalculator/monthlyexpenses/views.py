@@ -15,7 +15,8 @@ from .forms import SourceForm, UserRegistrationForm
 
 
 def create_source(request):
-    
+    if not request.user.is_authenticated:
+        return render(request,"page_not_found.html",{})
     if request.method == "POST":
         form = SourceForm(request.POST)
         if form.is_valid():
@@ -28,6 +29,8 @@ def create_source(request):
 
 
 def sources(request):
+    if not request.user.is_authenticated:
+        return render(request,"page_not_found.html",{})
     sources = Source.objects.all().values()
     context = {"sources":sources}
     return render(request,"source_list.html",context)
