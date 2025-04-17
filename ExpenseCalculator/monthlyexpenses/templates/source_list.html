@@ -12,7 +12,7 @@
     <div class="flex-container">
         {% for x in sources %}
         <div class="box">
-            {{x.label}}
+            {{x.label}} <a class="detailpage" href="{% url 'source-detail' x.id %}">View</a>        
         </div>
         {% endfor %}
 

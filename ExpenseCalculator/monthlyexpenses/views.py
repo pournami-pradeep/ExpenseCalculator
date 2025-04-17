@@ -5,10 +5,10 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from monthlyexpenses.Custommessages import Custommessage
-from monthlyexpenses.models import Source
+from monthlyexpenses.models import Expenses, Source
 from rest_framework import generics
 
-from .forms import SourceForm, UserRegistrationForm
+from .forms import ExpenseForm, SourceForm, UserRegistrationForm
 
 # Create your views here.
 
@@ -35,24 +35,36 @@ def sources(request):
     context = {"sources":sources}
     return render(request,"source_list.html",context)
 
-
-class ExpenseAPIView(generics.GenericAPIView):
-    msg_obj = Custommessage()
+def source_detail(request,source_id):
+    try:
+        source = Source.objects.get(id=source_id)
+    except:
+        return render(request,"page_not_found.html",{})
+    
+    context = {"source":source}
+    return render(request,"source_detail.html",context)
 
    
-    def post(self,request,*args,**kwargs):
-        source_id=self.kwargs.get("pk")
-        source = get_object_or_404(Source, id=source_id)
-        serializer = self.get_serializer(data=request.data,context={"source":source})
-        if serializer.is_valid():
-            msg = self.msg_obj.added
-            return success(msg,{})
-        return serializer_error(serializer)
+def add_expense(request,source_id):
+    try:
+        source = Source.objects.get(id=source_id)
+    except:
+        return render(request,"page_not_found.html",{})
     
-    def get(self,request):
-        source_id=self.kwargs.get("source_id")
-        source = get_object_or_404(Source, id=source_id)
-        return render(request, "expenses.html", {"source":source})
+    if request.method == "POST":
+        form = ExpenseForm(request.POST,{"source":source})
+        if form.is_valid():
+            amount = form.cleaned_data["expense"]
+            date = form.cleaned_data["date"]
+            expense = Expenses(source=source,expense=amount,date=date) 
+            
+            expense.save()
+            context = {"source":source}
+            return render(request,"source_detail.html",context)
+        error_string = ' '.join([' '.join(x for x in l) for l in list(form.errors.values())])
+        return render(request,"expense.html",{"form":form,"error":error_string})
+    form = ExpenseForm()
+    return render(request,"expense.html",{"form":form,"source":source})
     
 
 class HomePage(generics.GenericAPIView):

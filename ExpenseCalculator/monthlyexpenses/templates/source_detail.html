@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <div>
+        <h1> {{ source.label}} </h1>
+    </div>
+
+    <div>
+        <div class="buttondiv">
+            <div>
+            <a href="{% url 'source' %}">
+                <button class="b3" onclick="source">Back</button>
+            </a>
+            </div>
+            <div>
+            <a href="{% url 'expense' source.id %}">
+                <button class="b3" onclick="source">Add Expense</button>
+            </a>
+        </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+{% endblock %}

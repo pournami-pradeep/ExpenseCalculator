@@ -5,3 +5,4 @@ from monthlyexpenses.models import *
 # Register your models here.
 
 admin.site.register(Source)
+admin.site.register(Expenses)

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from monthlyexpenses.models import Source
+from monthlyexpenses.models import Expenses, Source
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -28,6 +28,14 @@ class SourceForm(forms.ModelForm):
     class Meta:
         model = Source 
         fields = ("label",)
+
+class ExpenseForm(forms.ModelForm):
+    expense = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'register','placeholder':'Amount','autocomplete':'off'}))
+    date = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'register','placeholder':'Date','autocomplete':'off'}))
+     
+    class Meta:
+        model = Expenses 
+        fields = ("expense","date",)
 
 
 

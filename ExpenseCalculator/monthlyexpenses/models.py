@@ -9,7 +9,8 @@ class Source(models.Model):
 
 class Expenses(models.Model):
     source = models.ForeignKey(Source, on_delete=models.PROTECT)
-    expense = models.IntegerField()
+    expense = models.PositiveIntegerField()
+    date = models.DateField()
 
 
 class UserProfile(models.Model):
