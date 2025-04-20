@@ -85,8 +85,8 @@ ul {
     width: 150px;
     height: 40px;
     font-size: 20px;
-    margin-left: 500px;
-    margin-top: 100px;
+    margin-left: 550px;
+    margin-top: 50px;
     display: block;
     border-radius: 20px;
 }
@@ -155,7 +155,6 @@ form {
     margin-top: 0;
     display: inline-flex;
     /* text-align: center; */
-    width: -webkit-fill-available;
     justify-content: center;
 
 }
@@ -233,8 +232,6 @@ form {
 }
 
 
-
-
 .detailpage:link {
     color: rgb(115, 14, 155);
   }
@@ -246,3 +243,39 @@ form {
 .detailpage:hover{
     color: rgb(90, 199, 226);
 }
+
+table{
+    width: 50%;
+    margin-left: 600px;
+    background-color: #AA336A;
+    font-family: "Shadows Into Light", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    color: #1fd388;
+}
+
+th{
+    border: 1px solid ;
+    padding: 5px; 
+    background-color: #000000;
+    color: #077749;
+}
+
+td {
+    border: 1px solid ;
+    padding: 5px; 
+}
+
+.amt{
+    width: 50%;
+}
+
+.date{
+    width: 50%;
+}
+tr:hover{
+    background-color: rgb(106, 102, 231);
+    color: #cd91cf;
+}
+

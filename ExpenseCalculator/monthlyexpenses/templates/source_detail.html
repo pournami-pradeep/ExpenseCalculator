@@ -6,6 +6,30 @@
     <div>
         <h1> {{ source.label}} </h1>
     </div>
+    <div>
+    {% if expense %}
+        <table >
+            <thead>
+            <tr>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+            </tr>
+            </thead>
+
+            {% for exp in expense %}
+            <tbody>
+            <tr>
+            
+                <td class="amt">{{exp.expense}}</td>
+                <td class="date">{{exp.date}}</td>
+                
+            </tr>
+            
+            </tbody>
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
 
     <div>
         <div class="buttondiv">
@@ -14,6 +38,11 @@
                 <button class="b3" onclick="source">Back</button>
             </a>
             </div>
+            <!-- <div>
+                <a href="{% url 'source' %}">
+                    <button class="b3" onclick="source">Delete</button>
+                </a>
+                </div> -->
             <div>
             <a href="{% url 'expense' source.id %}">
                 <button class="b3" onclick="source">Add Expense</button>

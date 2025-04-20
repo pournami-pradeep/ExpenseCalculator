@@ -41,7 +41,9 @@ def source_detail(request,source_id):
     except:
         return render(request,"page_not_found.html",{})
     
-    context = {"source":source}
+    expenses = Expenses.objects.filter(source=source)
+    print(expenses)
+    context = {"source":source,"expense":expenses}
     return render(request,"source_detail.html",context)
 
    
@@ -51,6 +53,7 @@ def add_expense(request,source_id):
     except:
         return render(request,"page_not_found.html",{})
     
+    
     if request.method == "POST":
         form = ExpenseForm(request.POST,{"source":source})
         if form.is_valid():
@@ -59,18 +62,13 @@ def add_expense(request,source_id):
             expense = Expenses(source=source,expense=amount,date=date) 
             
             expense.save()
-            context = {"source":source}
+            expenses = Expenses.objects.filter(source=source)
+            context = {"source":source,"expense":expenses}
             return render(request,"source_detail.html",context)
         error_string = ' '.join([' '.join(x for x in l) for l in list(form.errors.values())])
         return render(request,"expense.html",{"form":form,"error":error_string})
     form = ExpenseForm()
     return render(request,"expense.html",{"form":form,"source":source})
-    
-
-class HomePage(generics.GenericAPIView):
-    def get(self,request):
-        template = loader.get_template('home.html')
-        return HttpResponse(template.render())
 
 
 def register(request):
@@ -92,6 +90,7 @@ def register(request):
     form = UserRegistrationForm()
     return render(request, 'register.html',{"form":form})
 
+
 def login_user(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -102,6 +101,20 @@ def login_user(request):
             return redirect('source')  #should change this to source listing page
         return render(request,'login.html',{"error":"Error logging in."})
     return render(request,'login.html')
+
+def home(request):
+    return render(request,'home.html')
+
+# def list_expenses(request,source_id):
+#     try:
+#         source = Source.objects.get(id=source_id)
+#     except:
+#         return render(request,"page_not_found.html",{})
+    
+#     expenses = Expenses.objects.filter(source=source)
+#     context = {"source":source,"expense":expenses}
+#     return render(request,"source_detail",context)
+
     
 
 
