@@ -43,6 +43,7 @@ def source_detail(request,source_id):
     
     expenses = Expenses.objects.filter(source=source)
     total_amount = sum(exp.expense for exp in expenses)
+    print(total_amount,';;;;;;;;;;;;;;;;;;;;;;;;;;;;')
     context = {"source":source,"expense":expenses,"total_amount":total_amount}
     return render(request,"source_detail.html",context)
 
@@ -60,11 +61,9 @@ def add_expense(request,source_id):
             amount = form.cleaned_data["expense"]
             date = form.cleaned_data["date"]
             expense = Expenses(source=source,expense=amount,date=date) 
-            
             expense.save()
-            expenses = Expenses.objects.filter(source=source)
-            context = {"source":source,"expense":expenses}
-            return render(request,"source_detail.html",context)
+            return redirect("source-detail",source_id)
+            # return render(request,"source_detail.html",context)
         error_string = ' '.join([' '.join(x for x in l) for l in list(form.errors.values())])
         return render(request,"expense.html",{"form":form,"error":error_string})
     form = ExpenseForm()
@@ -118,7 +117,15 @@ def home(request):
     return render(request,'home.html')
 
 
-# def delete_source(reque)
+def delete_source(request,source_id):
+    try:
+        source = Source.objects.get(id=source_id)
+    except:
+        return render(request,"page_not_found.html",{})
+    source.delete()
+    return redirect('source')
+    
+
 
 
 

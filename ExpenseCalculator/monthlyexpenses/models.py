@@ -8,7 +8,7 @@ class Source(models.Model):
     label = models.CharField(max_length=30)
 
 class Expenses(models.Model):
-    source = models.ForeignKey(Source, on_delete=models.PROTECT)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
     expense = models.PositiveIntegerField()
     date = models.DateField()
 

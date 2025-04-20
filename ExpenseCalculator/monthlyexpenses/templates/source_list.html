@@ -12,7 +12,7 @@
     <div class="flex-container">
         {% for x in sources %}
         <div class="box">
-            {{x.label}} <a class="detailpage" href='{% url "source-detail" x.id %}'>View</a> <i class="fa fa-trash delete"></i>     
+            {{x.label}} <a class="detailpage" href='{% url "source-detail" x.id %}'>View</a> <a href='{% url "delete-source" x.id %}'><i class="fa fa-trash delete"></i></a>    
         </div>
         {% endfor %}
 
