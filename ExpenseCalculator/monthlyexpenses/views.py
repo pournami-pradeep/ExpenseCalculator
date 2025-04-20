@@ -105,6 +105,9 @@ def login_user(request):
 def home(request):
     return render(request,'home.html')
 
+
+# def delete_source(reque)
+
 # def list_expenses(request,source_id):
 #     try:
 #         source = Source.objects.get(id=source_id)

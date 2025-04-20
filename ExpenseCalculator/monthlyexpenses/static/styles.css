@@ -91,6 +91,19 @@ ul {
     border-radius: 20px;
 }
 
+.bhome{
+    margin-top: 1px;
+    margin-left: 2px;
+    position:absolute;
+    top:0;
+    left:0;
+    width: 50px;
+    height: 50px;
+    background-color: rgb(255, 0, 0);
+    border-radius: 20px;
+
+}
+
 
 
 .Intro {

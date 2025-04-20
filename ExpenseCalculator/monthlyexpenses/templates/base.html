@@ -15,9 +15,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Barrio&family=Delius&family=Shadows+Into+Light&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css2?family=Barrio&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 </head>
 
 <body>
+    <div>
+        <a href="{% url 'home' %}">
+            <button class="w3-btn w3-orange w3-xlarge bhome"><i class="w3-margin-left fa fa-home"></i></button>
+        </a>
+    </div>
     <div class="container">
         {% if messages %}
             {% for message in messages %}
