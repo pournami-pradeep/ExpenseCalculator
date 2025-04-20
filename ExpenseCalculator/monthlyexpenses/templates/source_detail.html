@@ -23,6 +23,13 @@
                 <td class="amt">{{exp.expense}}</td>
                 <td class="date">{{exp.date}}</td>
                 
+                <td class="delete">
+                    <a href="{% url 'delete-expense' exp.id source.id %}">
+                        <i class="fa fa-trash delete"></i>
+                    </a>
+                </td>
+               
+                
             </tr>
             
             </tbody>
@@ -38,11 +45,7 @@
                 <button class="b3" onclick="source">Back</button>
             </a>
             </div>
-            <!-- <div>
-                <a href="{% url 'source' %}">
-                    <button class="b3" onclick="source">Delete</button>
-                </a>
-                </div> -->
+           
             <div>
             <a href="{% url 'expense' source.id %}">
                 <button class="b3" onclick="source">Add Expense</button>

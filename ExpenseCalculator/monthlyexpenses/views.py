@@ -13,7 +13,6 @@ from .forms import ExpenseForm, SourceForm, UserRegistrationForm
 # Create your views here.
 
 
-
 def create_source(request):
     if not request.user.is_authenticated:
         return render(request,"page_not_found.html",{})
@@ -35,6 +34,7 @@ def sources(request):
     context = {"sources":sources}
     return render(request,"source_list.html",context)
 
+
 def source_detail(request,source_id):
     try:
         source = Source.objects.get(id=source_id)
@@ -42,7 +42,6 @@ def source_detail(request,source_id):
         return render(request,"page_not_found.html",{})
     
     expenses = Expenses.objects.filter(source=source)
-    print(expenses)
     context = {"source":source,"expense":expenses}
     return render(request,"source_detail.html",context)
 
@@ -69,6 +68,15 @@ def add_expense(request,source_id):
         return render(request,"expense.html",{"form":form,"error":error_string})
     form = ExpenseForm()
     return render(request,"expense.html",{"form":form,"source":source})
+
+
+def delete_expense(request,expense_id,source_id):
+    try:
+        expense = Expenses.objects.get(id=expense_id)
+    except:
+        return render(request,"page_not_found.html",{})
+    expense.delete()
+    return redirect("source-detail",source_id)
 
 
 def register(request):
@@ -102,21 +110,16 @@ def login_user(request):
         return render(request,'login.html',{"error":"Error logging in."})
     return render(request,'login.html')
 
+
 def home(request):
+    if request.user.is_authenticated:
+        return redirect('source')
     return render(request,'home.html')
 
 
 # def delete_source(reque)
 
-# def list_expenses(request,source_id):
-#     try:
-#         source = Source.objects.get(id=source_id)
-#     except:
-#         return render(request,"page_not_found.html",{})
-    
-#     expenses = Expenses.objects.filter(source=source)
-#     context = {"source":source,"expense":expenses}
-#     return render(request,"source_detail",context)
+
 
     
 

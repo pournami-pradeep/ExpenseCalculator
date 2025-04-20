@@ -10,6 +10,7 @@ urlpatterns = [
     path('source-details/<int:source_id>/',views.source_detail,name='source-detail'),
     # path('delete-source/<int:source_id>/',views.delete_source,name='delete-source'),
     path('expense/<int:source_id>/',views.add_expense,name='expense'),
+    path('delete-expense/<int:expense_id>/<int:source_id>/',views.delete_expense,name='delete-expense'),
     path('',views.home, name="home"),
     # path('create-source/',views.CreateSource.as_view(),name='source-create'),
 ]
