@@ -20,8 +20,9 @@
             <tbody>
             <tr>
             
-                <td class="amt">{{exp.expense}}</td>
+               
                 <td class="date">{{exp.date}}</td>
+                <td class="amt">{{exp.expense}}</td>
                 
                 <td class="delete">
                     <a href="{% url 'delete-expense' exp.id source.id %}">
@@ -34,6 +35,9 @@
             
             </tbody>
             {% endfor %}
+            <td class="date">Total</td>
+            <td class="amt">{{ total_amount }}</td>
+
         </table>
     {% endif %}
 </div>

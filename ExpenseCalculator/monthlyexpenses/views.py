@@ -42,7 +42,8 @@ def source_detail(request,source_id):
         return render(request,"page_not_found.html",{})
     
     expenses = Expenses.objects.filter(source=source)
-    context = {"source":source,"expense":expenses}
+    total_amount = sum(exp.expense for exp in expenses)
+    context = {"source":source,"expense":expenses,"total_amount":total_amount}
     return render(request,"source_detail.html",context)
 
    
