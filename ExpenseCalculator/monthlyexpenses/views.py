@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -109,6 +109,11 @@ def login_user(request):
             return redirect('source')  #should change this to source listing page
         return render(request,'login.html',{"error":"Error logging in."})
     return render(request,'login.html')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')
 
 
 def home(request):

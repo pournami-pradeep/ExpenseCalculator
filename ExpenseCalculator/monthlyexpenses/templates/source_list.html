@@ -2,6 +2,11 @@
 
 {% block content %}
 <div>
+    <div>
+        <a href="{% url 'logout' %}">
+            <button class="w3-btn w3-orange w3-xlarge blogout"><i class="fa fa-sign-out" style="font-size:26px"></i></button>
+        </a>
+    </div>
 
     {% csrf_token %}
     <div>
