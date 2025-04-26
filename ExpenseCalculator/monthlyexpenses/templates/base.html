@@ -27,6 +27,11 @@
             <button class="w3-btn w3-orange w3-xlarge bhome"><i class="w3-margin-left fa fa-home"></i></button>
         </a>
     </div>
+    <div>
+        <a href="{% url 'expense-insight' %}">
+            <button class="w3-btn w3-orange w3-xlarge bprofile">&#128103;</button>
+        </a>
+    </div>
     <div class="container">
         {% if messages %}
             {% for message in messages %}

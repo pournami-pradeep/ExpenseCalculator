@@ -6,6 +6,7 @@ from django.db import models
 
 class Source(models.Model):
     label = models.CharField(max_length=30)
+    user = models.ForeignKey(User,on_delete=models.PROTECT)
 
 class Expenses(models.Model):
     source = models.ForeignKey(Source, on_delete=models.CASCADE)

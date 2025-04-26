@@ -12,6 +12,8 @@ urlpatterns = [
     path('expense/<int:source_id>/',views.add_expense,name='expense'),
     path('delete-expense/<int:expense_id>/<int:source_id>/',views.delete_expense,name='delete-expense'),
     path('',views.home, name="home"),
-    path('logout',views.logout_user,name='logout'),
+    path('logout/',views.logout_user,name='logout'),
+    path('profile/',views.profile,name='profile'),
+    path('expense-insight/',views.expense_summary,name='expense-insight')
     # path('create-source/',views.CreateSource.as_view(),name='source-create'),
 ]

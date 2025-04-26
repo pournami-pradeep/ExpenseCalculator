@@ -1,3 +1,4 @@
+import datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
@@ -8,6 +9,7 @@ from monthlyexpenses.Custommessages import Custommessage
 from monthlyexpenses.models import Expenses, Source
 from rest_framework import generics
 
+from datetime import timedelta
 from .forms import ExpenseForm, SourceForm, UserRegistrationForm
 
 # Create your views here.
@@ -19,7 +21,9 @@ def create_source(request):
     if request.method == "POST":
         form = SourceForm(request.POST)
         if form.is_valid():
-            form.save()
+            label = form.cleaned_data["label"]
+            source = Source(label=label,user=request.user)
+            source.save()
             return redirect("source")
         error_string = ' '.join([' '.join(x for x in l) for l in list(form.errors.values())])
         return render(request,"source_create.html",{"form":form,"error":error_string})
@@ -30,7 +34,7 @@ def create_source(request):
 def sources(request):
     if not request.user.is_authenticated:
         return render(request,"page_not_found.html",{})
-    sources = Source.objects.all().values()
+    sources = Source.objects.filter(user=request.user).values()
     context = {"sources":sources}
     return render(request,"source_list.html",context)
 
@@ -43,7 +47,6 @@ def source_detail(request,source_id):
     
     expenses = Expenses.objects.filter(source=source)
     total_amount = sum(exp.expense for exp in expenses)
-    print(total_amount,';;;;;;;;;;;;;;;;;;;;;;;;;;;;')
     context = {"source":source,"expense":expenses,"total_amount":total_amount}
     return render(request,"source_detail.html",context)
 
@@ -115,6 +118,22 @@ def logout_user(request):
     logout(request)
     return redirect('home')
 
+def profile(request):
+    return render(request,"profile.html",{})
+
+def expense_summary(request):
+    curr_date = datetime.datetime.now()    
+    last_month = curr_date - timedelta(days=30)
+    print(last_month,"=======================================================")
+    if request.user.is_authenticated:
+        expenses = {}
+        sources = Source.objects.filter(user=request.user)
+        for source in sources:
+            source_exp = sum(Expenses.objects.filter(source=source,date__gt=last_month).values_list("expense",flat=True))
+            expenses[source.label] = source_exp
+        print(expenses,"-----------------------------")
+        return render(request,"profile.html",{})
+    return render(request,"page_not_found.html",{})
 
 def home(request):
     if request.user.is_authenticated:
